@@ -11,7 +11,7 @@ class countdown {
     this.seconds = this.UIminutes.innerHTML;
 
     //initialize timer starting value
-    this.updateTime(0, 20);
+    this.updateTime(25, 0);
 
     //button ui text access
     this.startB = document.getElementById("startstop");
@@ -100,12 +100,12 @@ class countdown {
       this.modeB.innerHTML = "WORK";
       this.mode = "BREAK";
       this.background.style.backgroundColor = "#2dadb8";
-      this.updateTime(0,5);
+      this.updateTime(5,0);
     } else if (this.mode == "BREAK") {
       this.modeB.innerHTML = "BREAK";
       this.mode = "WORK";
       this.background.style.backgroundColor = "#e14444";
-      this.updateTime(0, 3);
+      this.updateTime(25, 0);
     }
   }
 }
