@@ -1,110 +1,127 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css");
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css');
 
-
-html{
-  height:100%;
+html {
+	height: 100%;
 }
 
-body{
-  height: 100%;
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: rgb(47, 52, 55);
-  align-items:center;
-  margin: 0px;
+body {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: rgb(47, 52, 55);
+	margin: 0px;
+}
+
+.container {
+	display: flex;
+
+	background-color: #e14444;
+	border-radius: 8px;
+
+	padding: 0.5rem;
+	gap: 0.5rem;
+}
+
+.column {
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.timer-column {
+	width: 9%;
+}
+
+.clocktext {
+	font-size: 2rem;
+	font-family: iA Writer Mono var;
+	color: white;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.colon {
+	font-size: 1.5rem;
+}
+
+#startstop {
+	background-color: #b9cf99;
+}
+#mode {
+	background-color: #fde69d;
 }
 
 .bi {
-  font-size: 1.5em;
+	font-size: 2.5em;
 }
-.container {
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: nowarp;
-  align-items: center;
-  background-color: #e14444;
-  border-radius: 10px;
-}
-.timercolumn {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-  padding-left:10px;
-  padding-right:10px;
-}
-.clocktext {
-  font-size: 1.75em;
-  font-family: iA Writer Mono var;
-  color: white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-bottom: 1px;
-}
-.colon {
-  position: relative;
-  bottom: 2px;
-}
-#startstop {
-  background-color: #b9cf99;
-}
-#mode {
-  background-color: #fde69d;
-}
+
 .caretbox {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  color:white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	cursor: pointer;
+	user-select: none;
+	color: white;
 }
 
 .caretdown {
-  transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 .caretup:hover {
-  color: white;
-  box-shadow: 0px -5px 6px -6px black inset;
+	color: white;
+	background: linear-gradient(to top, hsla(0, 0%, 0%, 20%), transparent 20%);
 }
 .caretdown:hover {
-  color: white;
-  box-shadow: 0px -5px 6px -6px black inset;
+	color: white;
+	background: linear-gradient(to top, hsla(0, 0%, 0%, 20%), transparent 20%);
 }
 .caretbox:active {
-  color: black;
+	color: black;
 }
 
 .buttonbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-right:10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-items: space-around;
+	height: 100%;
+
+	outline: 1px dashed white;
 }
+
 .button {
-  font-size: 1em;
-  border-radius: 8px;
-  font-family: iA Writer Mono var;
-  font-weight: bold;
-  color: black;
-  user-select: none;
-  
-  width:4em;
-  text-align: center;
-  margin-top:4px;
-  margin-bottom:4px;
-  padding:4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.2rem;
+	font-family: iA Writer Mono var;
+	font-weight: bold;
+
+	color: black;
+	border-radius: 8px;
+
+	min-width: 5rem;
+	user-select: none;
+	flex-grow: 1;
 }
+
 .button:hover {
-  box-shadow: 0px 0px 2px 0px black inset;
-  color: white;
-  font-weight: normal;
-  cursor: pointer;
+	box-shadow: 0px 0px 5px 2px black inset;
+	font-weight: bold;
+	cursor: pointer;
 }
+
 .button:active {
-  color: black;
-  font-weight: bold;
+	color: white;
+	font-weight: bold;
 }
