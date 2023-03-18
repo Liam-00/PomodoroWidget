@@ -11,7 +11,7 @@ const button_startstop:HTMLElement = document.getElementById('startstop')!
 const button_workbreak:HTMLElement = document.getElementById('mode')!
 
 //TIME INTERFACES
-type MODE = 'work' | 'break'
+type MODE = 'WORK' | 'BREAK'
 
 interface TIME {
 	min: number
@@ -25,7 +25,7 @@ let timeDisplay:TIME = {
 
 //main authority on time
 let MAINTIME: number = 25 * 60
-
+let TIMERMODE: MODE = "WORK"
 
 //update DOM element with given time
 const timeSet = ():void => {
@@ -35,6 +35,8 @@ const timeSet = ():void => {
     clock_minutes.innerHTML = min > 9 ? min.toString() : '0' + min.toString()
     clock_seconds.innerHTML = sec > 9 ? sec.toString() : '0' + sec.toString()
 }   
+
+
 
 const timeTick = () => {
     MAINTIME--
@@ -77,6 +79,24 @@ const setTimerState = (state?: boolean):void => {
         time_Worker.postMessage(undefined)
     } else {
         time_Worker.postMessage(state)
+    }
+}
+
+//switch modes
+const setBreak = ():void => {
+    TIMERMODE = 'BREAK'
+    MAINTIME = 5 * 60
+}
+const setWork = ():void => {
+    setTimerState(false)
+    TIMERMODE = 'WORK'
+    MAINTIME = 25 * 60
+}
+const toggleState = ():void => {
+    if (TIMERMODE === 'BREAK') {
+        setWork()
+    } else {
+        setBreak()
     }
 }
 
