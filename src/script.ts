@@ -96,6 +96,7 @@ button_decrease.addEventListener('click', () => {
 })
 
 button_startstop.addEventListener('click', () => {
+    button_startstop.innerHTML = button_startstop.innerHTML === 'STOP' ? 'START' : 'STOP'
     setTimerState()
 })
     
