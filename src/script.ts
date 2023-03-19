@@ -42,10 +42,13 @@ const timeSet = ():void => {
 const timeTick = () => {
     if (MAINTIME === 0 && TIMERMODE === 'WORK') {
         setTimerMode('BREAK')
-    } else if (MAINTIME === 0 && TIMERMODE === 'BREAK')
+    } else if (MAINTIME === 0 && TIMERMODE === 'BREAK') {
         setTimerMode('WORK')
-    MAINTIME--
-    timeSet()
+    } else {
+        MAINTIME--
+        timeSet()
+    }
+    
 }
 
 //increment time by amount of minutes. ex: 21:54 + 5 = 25:0
@@ -93,11 +96,11 @@ const setTimerState = (state?: boolean):void => {
 //set mode
 const setTimerMode = (mode?: MODE):void => {
     
-    const setMode = (mode: MODE, time: number, ):void => {
-        TIMERMODE = mode
+    const setMode = (newMode: MODE, time: number):void => {
+        TIMERMODE = newMode
         MAINTIME = time * 60
         timeSet()
-        button_workbreak.innerHTML = mode
+        button_workbreak.innerHTML = TIMERMODE === 'WORK' ? 'BREAK' : 'WORK'
     }
     
     if (mode === undefined) {
