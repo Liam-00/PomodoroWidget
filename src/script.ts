@@ -10,6 +10,9 @@ const button_decrease:HTMLElement = document.getElementById('decrease')!
 const button_startstop:HTMLElement = document.getElementById('startstop')!
 const button_workbreak:HTMLElement = document.getElementById('mode')!
 
+//timer body
+const timer_container:HTMLElement = document.getElementById('container')!
+
 //TIME INTERFACES
 type MODE = 'WORK' | 'BREAK'
 
@@ -39,7 +42,6 @@ const timeSet = ():void => {
     clock_minutes.innerHTML = min > 9 ? min.toString() : '0' + min.toString()
     clock_seconds.innerHTML = sec > 9 ? sec.toString() : '0' + sec.toString()
 }   
-
 
 
 const timeTick = () => {
@@ -105,7 +107,13 @@ const setTimerMode = (mode?: MODE):void => {
         TIMERMODE = newMode
         MAINTIME = time * 60
         timeSet()
-        button_workbreak.innerHTML = TIMERMODE === 'WORK' ? 'BREAK' : 'WORK'
+        if (TIMERMODE === 'WORK') {
+            button_workbreak.innerHTML = 'BREAK'
+            timer_container.classList.replace('container-break', 'container-work') 
+        } else if (TIMERMODE === 'BREAK') {
+            button_workbreak.innerHTML = 'WORK'
+            timer_container.classList.replace('container-work', 'container-break') 
+        }
     }
     
     if (mode === undefined) {
