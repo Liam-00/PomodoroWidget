@@ -3,9 +3,9 @@ let timer = -1
 
 
 
-let drift: number = 0;
+let drift: number = 0
 
-let expectedTime: number
+let expectedTime: number = null
 
 //timer logic
 const time = () => {
