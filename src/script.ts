@@ -13,6 +13,10 @@ const button_workbreak:HTMLElement = document.getElementById('mode')!
 //timer body
 const timer_container:HTMLElement = document.getElementById('container')!
 
+//create audio
+const AUDIO = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg')
+
+
 //TIME INTERFACES
 type MODE = 'WORK' | 'BREAK'
 
@@ -21,36 +25,36 @@ interface TIME {
 	sec: number
 }
 
-let timeDisplay:TIME = {
-    min: 0,
-    sec: 0
-}
 
-//main authority on time
+//TIME CONSTANTS, main authority of given value
 let MAINTIME: number = 25 * 60
 let TIMERMODE: MODE = "WORK"
 let TIMERSTATE: boolean = false
 
-//create audio
-const AUDIO = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg')
 
-//update DOM element with given time
+//HELPER FUNCTIONS
+//update HTML clock element with MAINTIME
 const timeSet = ():void => {
+    //calc minutes and seconds frmo MAINTIME
     let min = Math.floor(MAINTIME / 60)
     let sec = MAINTIME - min * 60
 
+    //format for display in html timer
     clock_minutes.innerHTML = min > 9 ? min.toString() : '0' + min.toString()
     clock_seconds.innerHTML = sec > 9 ? sec.toString() : '0' + sec.toString()
 }   
 
-
+//handle each 1000ms time tick
 const timeTick = () => {
+    //switch TIMERMODE at 0seconds on MAINTIME, else tick MAINTIME down
     if (MAINTIME === 0 && TIMERMODE === 'WORK') {
         AUDIO.play()
         setTimerMode('BREAK')
+
     } else if (MAINTIME === 0 && TIMERMODE === 'BREAK') {
         AUDIO.play()
         setTimerMode('WORK')
+
     } else {
         MAINTIME--
         timeSet()
@@ -58,10 +62,12 @@ const timeTick = () => {
     
 }
 
-//increment time by amount of minutes. ex: 21:54 + 5 = 25:0
+//increment and decrement time by amount of minutes. ex: 21:54 + 5 = 25:0
 const timeIncrement = (amount: number):void => {
+    //stop timer
     setTimerState(false)
 
+    //increment to nearest 5 minutes, else set to max time (60)
     if (MAINTIME + (amount * 60) <= 60 * 60) {
         MAINTIME = Math.floor(MAINTIME / (5 * 60)) * (5 * 60) + (amount * 60)
     } else {
@@ -72,8 +78,10 @@ const timeIncrement = (amount: number):void => {
 }
 
 const timeDecrement = (amount: number):void => {
+    //stop timer
     setTimerState(false)
     
+    //decrement by nearest 5, else cap at lowest time (0)
     if (MAINTIME - (amount * 60) >= 0) {
         MAINTIME = Math.ceil(MAINTIME / (5 * 60)) * (5 * 60) - (amount * 60)
     } else {
@@ -83,12 +91,19 @@ const timeDecrement = (amount: number):void => {
     timeSet()
 }
 
+
 //WEBWORKER FUNCTIONS
 //create webworker
 const time_Worker = new Worker('webworker.js')
 
-//set timer
+//event listener to handle incoming ticks from webworker
+time_Worker.onmessage = (msg) => {
+    timeTick()
+}
+
+//start or stop webworker timer
 const setTimerState = (state?: boolean):void => {
+    //toggle timer active else set to given state
     if (state === undefined) {
         time_Worker.postMessage(undefined)
         TIMERSTATE = TIMERSTATE ? false : true
@@ -100,9 +115,12 @@ const setTimerState = (state?: boolean):void => {
     }
 }
 
-//set mode
+
+//MODES
+//handle setting or toggling timer mode
 const setTimerMode = (mode?: MODE):void => {
     
+    //util function for settting TIMERMODE and handling relevent ui updates
     const setMode = (newMode: MODE, time: number):void => {
         TIMERMODE = newMode
         MAINTIME = time * 60
@@ -116,6 +134,7 @@ const setTimerMode = (mode?: MODE):void => {
         }
     }
     
+    //toggle mode if input undefined, else set given value. Timer stops on changing back to WORK
     if (mode === undefined) {
         setMode(TIMERMODE === 'WORK' ? 'BREAK' : 'WORK', TIMERMODE === 'WORK' ? 5 : 25)
         if (TIMERMODE === 'WORK') {
@@ -131,12 +150,8 @@ const setTimerMode = (mode?: MODE):void => {
     }
 }
 
-time_Worker.onmessage = (msg) => {
-    timeTick()
-}
 
 //EVENTLISTENERS
-
 button_increase.addEventListener('click', () => {
     timeIncrement(5)
 })
