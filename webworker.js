@@ -18,7 +18,6 @@ const time = () => {
             postMessage(true);
             expectedTime += 1000;
             drift = 1000 - (expectedTime - Date.now());
-            console.log(drift);
             time();
         }, 1000 - drift);
     }
