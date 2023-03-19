@@ -53,7 +53,7 @@ const timeIncrement = (amount: number):void => {
     setTimerState(false)
 
     if (MAINTIME + (amount * 60) <= 60 * 60) {
-        MAINTIME += amount * 60
+        MAINTIME = Math.floor(MAINTIME / (5 * 60)) * (5 * 60) + (amount * 60)
     } else {
         MAINTIME = 60 * 60
     }
@@ -65,7 +65,7 @@ const timeDecrement = (amount: number):void => {
     setTimerState(false)
     
     if (MAINTIME - (amount * 60) >= 0) {
-        MAINTIME -= amount * 60
+        MAINTIME = Math.ceil(MAINTIME / (5 * 60)) * (5 * 60) - (amount * 60)
     } else {
         MAINTIME = 0
     }
