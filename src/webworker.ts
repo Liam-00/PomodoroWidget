@@ -1,20 +1,24 @@
+//VARIABLES
+//note, webworker is being treated like a closure with variables scoped to it's own environment
 let timerActive = false
 let timer = -1
 
-
-
 let drift: number = 0
-
 let expectedTime: number = null
 
-//timer logic
+
+//TIMER LOGIC
 const time = () => {
     
     if (timerActive) {
+        //on first timer call, set first expected time
         if (expectedTime === null) {
-            console.log('setting first expected time')
             expectedTime = Date.now() + 1000
         }
+
+        //start timer, in callback expected time for next cycle is updated
+        //and excess time taken is set as drift
+        //subtracting drift from next cycle means timer stays consistant
         timer = setTimeout(
             () => {
                 postMessage(true)
@@ -29,7 +33,7 @@ const time = () => {
 }
 
 
-//timer controls
+//TIMER CONTROLS
 const startTimer = () => {
     timerActive = true
     time()
@@ -37,6 +41,7 @@ const startTimer = () => {
 const stopTimer = () => {
     clearInterval(timer)
     timerActive = false
+    //reset variables on timer stop
     timer = -1
     expectedTime = null
     drift = 0
@@ -49,7 +54,8 @@ const toggleTimer = () => {
     }
 }
 
-//message handler
+//MESSAGE HANDLER
+//interacts with script
 onmessage = (msg) => {
         if (msg.data === true) {
             startTimer()
