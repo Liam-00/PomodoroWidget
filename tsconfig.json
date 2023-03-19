@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"outDir": "./"
+	},
+	"files": [
+		"src/script.ts",
+		"src/webworker.ts"
+	]
+}
