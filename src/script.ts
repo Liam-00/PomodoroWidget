@@ -39,6 +39,10 @@ const timeSet = ():void => {
 
 
 const timeTick = () => {
+    if (MAINTIME === 0 && TIMERMODE === 'WORK') {
+        setBreak()
+    } else if (MAINTIME === 0 && TIMERMODE === 'BREAK')
+        setWork()
     MAINTIME--
     timeSet()
 }
