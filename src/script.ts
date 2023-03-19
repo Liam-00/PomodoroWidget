@@ -28,6 +28,9 @@ let MAINTIME: number = 25 * 60
 let TIMERMODE: MODE = "WORK"
 let TIMERSTATE: boolean = false
 
+//create audio
+const AUDIO = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg')
+
 //update DOM element with given time
 const timeSet = ():void => {
     let min = Math.floor(MAINTIME / 60)
@@ -41,8 +44,10 @@ const timeSet = ():void => {
 
 const timeTick = () => {
     if (MAINTIME === 0 && TIMERMODE === 'WORK') {
+        AUDIO.play()
         setTimerMode('BREAK')
     } else if (MAINTIME === 0 && TIMERMODE === 'BREAK') {
+        AUDIO.play()
         setTimerMode('WORK')
     } else {
         MAINTIME--
