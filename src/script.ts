@@ -26,6 +26,7 @@ let timeDisplay:TIME = {
 //main authority on time
 let MAINTIME: number = 25 * 60
 let TIMERMODE: MODE = "WORK"
+let TIMERSTATE: boolean = false
 
 //update DOM element with given time
 const timeSet = ():void => {
@@ -40,9 +41,9 @@ const timeSet = ():void => {
 
 const timeTick = () => {
     if (MAINTIME === 0 && TIMERMODE === 'WORK') {
-        setBreak()
+        setTimerMode('BREAK')
     } else if (MAINTIME === 0 && TIMERMODE === 'BREAK')
-        setWork()
+        setTimerMode('WORK')
     MAINTIME--
     timeSet()
 }
@@ -78,36 +79,45 @@ const time_Worker = new Worker('webworker.js')
 
 //set timer
 const setTimerState = (state?: boolean):void => {
-    
     if (state === undefined) {
         time_Worker.postMessage(undefined)
+        TIMERSTATE = TIMERSTATE ? false : true
+        button_startstop.innerHTML = TIMERSTATE ? 'STOP' : 'START'
     } else {
         time_Worker.postMessage(state)
+        TIMERSTATE = state
+        button_startstop.innerHTML = TIMERSTATE ? 'STOP' : 'START'
     }
 }
 
-//switch modes
-const setBreak = ():void => {
-    TIMERMODE = 'BREAK'
-    MAINTIME = 5 * 60
-}
-const setWork = ():void => {
-    setTimerState(false)
-    TIMERMODE = 'WORK'
-    MAINTIME = 25 * 60
-}
-const toggleState = ():void => {
-    if (TIMERMODE === 'BREAK') {
-        setWork()
-    } else {
-        setBreak()
+//set mode
+const setTimerMode = (mode?: MODE):void => {
+    
+    const setMode = (mode: MODE, time: number, ):void => {
+        TIMERMODE = mode
+        MAINTIME = time * 60
+        timeSet()
+        button_workbreak.innerHTML = mode
+    }
+    
+    if (mode === undefined) {
+        setMode(TIMERMODE === 'WORK' ? 'BREAK' : 'WORK', TIMERMODE === 'WORK' ? 5 : 25)
+        if (TIMERMODE === 'WORK') {
+            setTimerState(false)
+        }
+
+    } else if (mode === 'WORK') {
+        setTimerState(false)
+        setMode('WORK', 25)
+    
+    } else if (mode === 'BREAK') {
+        setMode('BREAK', 5)
     }
 }
 
 time_Worker.onmessage = (msg) => {
     timeTick()
 }
-
 
 //EVENTLISTENERS
 
@@ -120,10 +130,9 @@ button_decrease.addEventListener('click', () => {
 })
 
 button_startstop.addEventListener('click', () => {
-    button_startstop.innerHTML = button_startstop.innerHTML === 'STOP' ? 'START' : 'STOP'
     setTimerState()
 })
     
 button_workbreak.addEventListener('click', () => {
-    
+    setTimerMode()
 })
