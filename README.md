@@ -1,5 +1,5 @@
 # PomodoroWidget
-Pomodoro widget intended to be embeddable in Notion 
+Pomodoro widget intended to be embeddable in Notion.
 
 ## Use the deployment link to open or embed:
 Link: 
