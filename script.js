@@ -10,7 +10,7 @@ const button_workbreak = document.getElementById('mode');
 //timer body
 const timer_container = document.getElementById('container');
 //create audio
-const AUDIO = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+const AUDIO = new Audio('/assets/alert.wav');
 //TIME CONSTANTS, main authority of given value
 let MAINTIME = 25 * 60;
 let TIMERMODE = "WORK";
