@@ -14,7 +14,7 @@ const button_workbreak:HTMLElement = document.getElementById('mode')!
 const timer_container:HTMLElement = document.getElementById('container')!
 
 //create audio
-const AUDIO = new Audio('/assets/alert.wav')
+const AUDIO = new Audio('assets/alert.wav')
 
 
 //TIME INTERFACES
